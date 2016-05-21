@@ -47,3 +47,118 @@ h5 {
 h6 {
   font-size: 2rem;
 }
+
+a {
+  color: $secondary;
+  &:visited {
+    color: $secondary;
+  }
+}
+
+ul {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  list-style-type: none;
+}
+
+pre {
+  font-size: 1.3rem;
+}
+
+// classes
+// layout
+.header {
+  overflow-wrap: break-word;
+}
+.box {
+  margin: 1.5rem auto 0;
+  background-color: $test;
+}
+.row {
+  display: inline-block;
+  width: 100%;
+  // margin-top: 1.5rem;
+}
+.lcol, .rcol {
+  display: block;
+  margin: 1.5rem auto 0;
+}
+.wide, .thin {
+  height: 80vh;
+}
+// helpers
+.first {
+  margin-top: 0;
+}
+.padded {
+  padding: 1rem;
+}
+.overflow {
+  overflow: scroll;
+}
+// colors
+.red {
+  color: $red;
+}
+
+// ids
+#sidebar {
+  background-color: $test;
+}
+#map {
+  background-color: $test;
+}
+
+// large screens
+@media (min-width: 600px) {
+  // layout
+  .lcol {
+    margin-right: 1rem;
+    float: left;
+  }
+  .rcol {
+    margin-left: 1rem;
+    float: right;
+  }
+  .wide {
+    width: 67%;
+  }
+  .thin {
+    width: 21%;
+  }
+}
+@media (min-width: 750px) {
+  .wide {
+    width: 67%;
+  }
+  .thin {
+    width: 24%;
+  }
+}
+@media (min-width: 900px) {
+  ul {
+    padding-left: 2rem;
+  }
+  .wide {
+    width: 72%;
+  }
+  .thin {
+    width: 20%;
+  }
+}
+@media (min-width: 1050px) {
+  .wide {
+    width: 72%;
+  }
+  .thin {
+    width: 21%;
+  }
+}
+@media (min-width: 1200px) {
+  .wide {
+    width: 76%;
+  }
+  .thin {
+    width: 18%;
+  }
+}

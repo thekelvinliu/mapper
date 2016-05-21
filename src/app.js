@@ -1,9 +1,7 @@
 'use strict';
 
 import path from 'path';
-import bodyParser from 'body-parser';
 import compress from 'compression';
-import cookieParser from 'cookie-parser';
 import express from 'express';
 import favicon from 'serve-favicon';
 import helmet from 'helmet';
@@ -29,12 +27,7 @@ app.set('view engine', 'jade');
 app.set('views', path.join(config.root, 'app/views'));
 app.use(express.static(path.join(config.root, 'static')));
 //add middlewares
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
 app.use(compress());
-app.use(cookieParser());
 app.use(favicon(path.join(config.root, 'static/img/favicon.png')));
 app.use(helmet());
 // load all models
@@ -51,7 +44,8 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const sc = err.status || 500;
   res.status(sc);
-  res.render('error', {
+  return res.render('error', {
+    title: '*error*',
     status: sc,
     message: err.message,
     stack: config.env === 'development' ? err.stack : ''

@@ -1,11 +1,9 @@
-extends layout
+extends layout/ui_box
 
 block head
-  title= error
-  link(rel='stylesheet', href='/css/error.css')
 
-block body
-  h1
+block box
+  h3
     span.red= status + ' Error! '
     = message
   pre= stack
