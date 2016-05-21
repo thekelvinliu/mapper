@@ -7,9 +7,7 @@ import mkdirp from 'mkdirp';
 import vfs from 'vinyl-fs';
 import gulp from 'gulp';
 import plugins from 'gulp-load-plugins';
-const $ = plugins({
-  pattern: ['gulp-*', 'main-bower-files']
-});
+const $ = plugins();
 
 // base directories, paths, etc.
 const SRC = 'src';
@@ -97,7 +95,7 @@ gulp.task('watch', ['build'], () => {
 // build everything
 gulp.task('build', ['build:client', 'build:server']);
 // build client-side files
-gulp.task('build:client', [...CLIENT].concat('bower'));
+gulp.task('build:client', [...CLIENT]);
 // build server-side files
 gulp.task('build:server', ['transpile', 'views', 'ln']);
 
@@ -200,31 +198,6 @@ gulp.task('fonts', done => {
     .pipe($.print(fp => `font: ${fp}`));
     done();
 });
-
-// move bower files to destination directory
-gulp.task('bower', ['bower:js', 'bower:css']);
-// concatenate and minify bower js
-gulp.task('bower:js', () =>
-  gulp.src($.mainBowerFiles())
-    .pipe($.filter('**/*.js'))
-    // ensure concat order
-    .pipe($.print(fp => `bower: ${fp}`))
-    .pipe($.concat('vendor.js'))
-    .pipe(gulp.dest(PATHS.scripts.dest))
-    .pipe($.print(fp => `bower: ${fp}`))
-    .pipe($.cache($.uglify()))
-    .pipe($.rename('vendor.min.js'))
-    .pipe(gulp.dest(PATHS.scripts.dest))
-    .pipe($.print(fp => `bower: ${fp}`))
-);
-// move bower css
-gulp.task('bower:css', () =>
-  gulp.src($.mainBowerFiles())
-    .pipe($.changed(PATHS.styles.dest))
-    .pipe($.filter('**/*.css'))
-    .pipe(gulp.dest(PATHS.styles.dest))
-    .pipe($.print(fp => `bower: ${fp}`))
-);
 
 // returns a function that lints the files in src
 const lintTask = src =>
