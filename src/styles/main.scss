@@ -1,9 +1,11 @@
 // fonts
-@import url('/fonts/Raleway-Regular.css');
-
-// variables
-$font-stack: Raleway-Regular, "Courier New", Courier, monospace;
-$base-color: rgba(189, 195, 199, 1);
+$font-stack: "Courier New", Courier, monospace;
+// colors
+$primary: #333;
+$secondary: #234;
+$bg: #CCC;
+$red: #D22;
+$test: #CAD;
 
 // semi-sensible defaults
 html {
@@ -12,7 +14,8 @@ html {
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: $base-color;
+  color: $primary;
+  background-color: $bg;
 }
 
 body {
