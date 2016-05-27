@@ -6,6 +6,7 @@ import express from 'express';
 import favicon from 'serve-favicon';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
+import logger from './app/helpers/logger';
 
 // BASIC CONFIG
 const config = {
@@ -61,10 +62,10 @@ db.on('error', () => {
 
 // START AND STOP
 const server = app.listen(config.port, () => {
-  console.log(`listening on port ${config.port}`);
+  logger.info(`listening on port ${config.port}`);
 });
 process.on('SIGINT', () => {
-  console.log('\nshutting down!');
+  logger.info('shutting down!');
   db.close();
   server.close();
   process.exit();

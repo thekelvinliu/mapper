@@ -50,6 +50,10 @@ const PATHS = {
   controllers: {
     src: path.join(SRC, 'app/controllers/**/*.js'),
     dest: path.join(DEST, 'app/controllers')
+  },
+  helpers: {
+    src: path.join(SRC, 'app/helpers/**/*.js'),
+    dest: path.join(DEST, 'app/helpers')
   }
 };
 
