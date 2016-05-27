@@ -1,6 +1,7 @@
 'use strict';
 
 import express from 'express';
+// import logger from '../helpers/logger';
 
 // create router
 const router = express.Router();
@@ -36,13 +37,22 @@ router.get('/about', (req, res, next) => res.render('about', {
 router.get('/register', (req, res, next) => res.render('register', {
   title: '*register*'
 }));
-router.get('/r1', (req, res, next) => res.render('register', {
-  title: '*register*'
-}));
-router.get('/r2', (req, res, next) => res.render('register', {
-  title: '*register*',
-  success: true
-}));
+router.post('/register', (req, res, next) => {
+  // check if req.body.user exists
+  if (!req.body.hasOwnProperty('user')) return new Error('No data');
+  // make user upper case
+  const user = req.body.user.toUpperCase();
+  // create payload object for rendering
+  const payload = {
+    title: '*register*',
+    user
+  };
+  payload.message = (payload.success = /^[a-zA-Z0-9]+$/.test(user))
+    ? 'Now get out there, and start sending your locations to \'MAPPER\'!'
+    : 'Something went wrong. Ensure that you\'re entering your Yo username correctly. Remember, it can only be alphanumeric!';
+  // TODO: insert user to db
+  return res.render('register_post', payload);
+});
 
 // export router
 module.exports = router;

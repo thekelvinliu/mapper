@@ -12,6 +12,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "body-parser": "^1.15.1",
     "compression": "^1.6.2",
     "express": "^4.13.4",
     "helmet": "^2.1.0",

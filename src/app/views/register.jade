@@ -1,15 +1,14 @@
 extends layout/ui_box
 
 block box
-  if (success)
-    h3.green Success!
-  else
-    h3 Enter your Yo account below:
-    input(type='text')
-    p Now get out there, and send your locations to MAPPER on the Yo app!
+  h3 All you need is Yo
+  p
+    | To register, simply enter your Yo username in the field below.
+    | Keep in mind that all Yo usernames are alphanumeric -- that means no spaces or special characters!
+  form.spacing(name='register' accept-charset='utf-8' autocomplete='off' method='post' onsubmit='return validate()')
+    input(required type='text' name='user' pattern='^[a-zA-Z0-9]+$')
+    br
+    input(type='submit' value='Register')
 
-
-
-//- users enter account
-//- post to backend, add account to users database
-//- render a new register page saying successful
+block scripts
+  script(src='/js/validate.js' async defer)

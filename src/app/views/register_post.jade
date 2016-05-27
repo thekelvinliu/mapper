@@ -1,0 +1,14 @@
+extends layout/ui_box
+
+block box
+  if (success)
+    h3.green
+      | Success! '
+      = user
+      | ' was registered.
+  else
+    h3.red
+      | Oh no! '
+      = user
+      | ' could not be registered.
+  p= message

@@ -1,6 +1,7 @@
 'use strict';
 
 import path from 'path';
+import bodyParser from 'body-parser';
 import compress from 'compression';
 import express from 'express';
 import favicon from 'serve-favicon';
@@ -28,6 +29,9 @@ app.set('view engine', 'jade');
 app.set('views', path.join(config.root, 'app/views'));
 app.use(express.static(path.join(config.root, 'static')));
 //add middlewares
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(compress());
 app.use(favicon(path.join(config.root, 'static/img/favicon.png')));
 app.use(helmet());
