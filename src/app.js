@@ -11,7 +11,7 @@ import logger from './app/helpers/logger';
 // BASIC CONFIG
 const config = {
   // address of mongodb
-  db: process.env.MONGOURI || 'mongodb://localhost:27017/test',
+  db: process.env.MONGOURI || 'mongodb://localhost:27017/mapper',
   // environment
   env: process.env.NODE_ENV || 'development',
   // port on which to listen
