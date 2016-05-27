@@ -50,6 +50,10 @@ h6 {
   font-size: 2rem;
 }
 
+p {
+  margin: 0;
+}
+
 a {
   color: $secondary;
   &:visited {
@@ -74,15 +78,11 @@ footer {
 
 // classes
 // layout
-.box {
-  display: block;
-  margin: 1.5rem auto 0;
-}
 .row {
   display: inline-block;
   width: 100%;
 }
-.lcol, .rcol {
+.box, .lcol, .rcol {
   display: block;
   margin: 1.5rem auto 0;
 }
@@ -91,7 +91,9 @@ footer {
 }
 // helpers
 .breakable {
+  text-overflow: visible;
   word-wrap: break-word;
+  white-space: normal;
 }
 .first {
   margin-top: 0;
