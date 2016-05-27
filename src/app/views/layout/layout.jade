@@ -13,9 +13,9 @@ html(lang='en')
     link(rel='stylesheet' href='/css/main.css')
     block head
   body
-    .first.row
+    #header.first.row
       .lcol
-        h1.header
+        h1.name
           a(href='/') MAPPER
           if (title != 'mapper')
             span.details
@@ -26,5 +26,6 @@ html(lang='en')
           a(href='/about') about
           | |
           a(href='/register') register
-    block body
+    .row
+      block body
   block scripts
