@@ -17,9 +17,12 @@
     "no-console": 1,
     "no-undef-init": 2,
     "no-undefined": 2,
-    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+    "no-unused-vars": [1, {"vars": "all", "args": "none"}],
     "no-use-before-define": 2,
     "no-useless-constructor": 2,
     "semi": [2, "always"]
+  },
+  "globals": {
+    "google": true
   }
 }
