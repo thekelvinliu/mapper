@@ -5,6 +5,7 @@ $primary: #333;
 $secondary: #234;
 $bg: #CCC;
 $red: #D22;
+$green: #1B1;
 $highlight: #DDD;
 
 // semi-sensible defaults
@@ -112,6 +113,9 @@ footer {
   margin-top: 1rem;
 }
 // colors
+.green {
+  color: $green;
+}
 .red {
   color: $red;
 }
