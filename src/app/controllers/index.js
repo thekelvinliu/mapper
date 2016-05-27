@@ -14,14 +14,6 @@ router.get('/', (req, res, next) => res.render('index', {
     '12345678901234567890'
   ]
 }));
-// about page
-router.get('/about', (req, res, next) => res.render('about', {
-  title: '*about*'
-}));
-// register page
-router.get('/register', (req, res, next) => res.render('register', {
-  title: '*register*'
-}));
 // user page
 router.get('/users/:user', (req, res, next) => res.render('users', {
   title: `${req.params.user}`,
@@ -35,6 +27,21 @@ router.get('/users/:user', (req, res, next) => res.render('users', {
     lat: 2,
     lng: 2
   }]
+}));
+// about page
+router.get('/about', (req, res, next) => res.render('about', {
+  title: '*about*'
+}));
+// register page
+router.get('/register', (req, res, next) => res.render('register', {
+  title: '*register*'
+}));
+router.get('/r1', (req, res, next) => res.render('register', {
+  title: '*register*'
+}));
+router.get('/r2', (req, res, next) => res.render('register', {
+  title: '*register*',
+  success: true
 }));
 
 // export router

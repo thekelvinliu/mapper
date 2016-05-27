@@ -1,11 +1,12 @@
 extends layout/ui_box
 
 block box
-  h3 Enter your Yo account below:
-  div
-    input(type='text' default='KLIU78')
-    span.green success!
-  p Now get out there, and send your locations to MAPPER on the Yo app!
+  if (success)
+    h3.green Success!
+  else
+    h3 Enter your Yo account below:
+    input(type='text')
+    p Now get out there, and send your locations to MAPPER on the Yo app!
 
 
 

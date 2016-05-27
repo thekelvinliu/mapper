@@ -5,7 +5,7 @@ $primary: #333;
 $secondary: #234;
 $bg: #CCC;
 $red: #D22;
-$test: #CAD;
+$highlight: #DDD;
 
 // semi-sensible defaults
 html {
@@ -16,6 +16,7 @@ html {
   font-size: 62.5%;
   color: $primary;
   background-color: $bg;
+  overflow: hidden;
 }
 
 body {
@@ -65,14 +66,16 @@ pre {
   font-size: 1.3rem;
 }
 
+footer {
+  position: absolute;
+  text-align: center;
+}
+
 // classes
 // layout
-.name {
-  overflow-wrap: break-word;
-}
 .box {
+  display: block;
   margin: 1.5rem auto 0;
-  background-color: $test;
 }
 .row {
   display: inline-block;
@@ -83,36 +86,34 @@ pre {
   margin: 1.5rem auto 0;
 }
 .wide, .thin {
-  height: 80vh;
+  height: 79vh;
 }
 // helpers
+.breakable {
+  word-wrap: break-word;
+}
 .first {
   margin-top: 0;
 }
-.spacing {
-  margin-top: 1rem;
-}
-.padded {
-  padding: 1rem;
-}
-.overflow {
-  overflow: scroll;
+.highlight {
+  background-color: $highlight;
 }
 .indent {
   margin: 0;
   padding-left: 1rem;
 }
+.overflow {
+  overflow: scroll;
+}
+.padded {
+  padding: 1rem;
+}
+.spacing {
+  margin-top: 1rem;
+}
 // colors
 .red {
   color: $red;
-}
-
-// ids
-#sidebar {
-  background-color: $test;
-}
-#map {
-  background-color: $test;
 }
 
 // large screens
