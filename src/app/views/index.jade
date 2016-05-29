@@ -8,13 +8,8 @@ block sidebar
         a(href='/users/#{user}')= user
   ul.location-list
     each loc in locations
-      li
-        | (
-        = loc.lat
-        | , 
-        = loc.lng
-        | )
+      li= ['(', loc.lat, ', ', loc.lng, ')'].join('')
 
 block scripts
-  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD_RaaepRyCefFdgq1cR8UOsipwC5ctkiA&callback=initMap' async defer)
-  script(src='/js/map.js' async defer)
+  script(src='/js/map.js' defer)
+  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD_RaaepRyCefFdgq1cR8UOsipwC5ctkiA&callback=initMap' defer)
