@@ -43,7 +43,7 @@ app.use('/', require(path.join(config.root, 'app/controllers')));
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  return next(err);
 });
 // general errors
 app.use((err, req, res, next) => {

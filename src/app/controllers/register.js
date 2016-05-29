@@ -3,6 +3,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import logger from '../helpers/logger';
+import {
+  contains
+} from '../helpers/functions';
+
 
 // load models
 const User = mongoose.model('User');
@@ -15,7 +19,7 @@ router.get('/', (req, res, next) => res.render('register', {
 }));
 router.post('/', (req, res, next) => {
   // check if req.body.user exists
-  if (!req.body.hasOwnProperty('user')) return next(new Error('No data'));
+  if (!contains(req.body, 'user')) return next(new Error('No data'));
   // make user upper case
   const user = req.body.user.toUpperCase();
   // create payload object for rendering

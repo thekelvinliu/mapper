@@ -8,6 +8,10 @@ const schema = new mongoose.Schema({
     type: String,
     uppercase: true,
     unique: true
+  },
+  lastUpdated: {
+    type: Date,
+    default: Date.now
   }
 });
 // virtual date attribute
