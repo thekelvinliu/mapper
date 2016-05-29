@@ -3,6 +3,7 @@
 import mongoose from 'mongoose';
 
 // load models
+const Location = mongoose.model('Location');
 const User = mongoose.model('User');
 
 // returns true if k is in obj
@@ -16,8 +17,11 @@ export const isEmpty = obj => {
   return true;
 };
 
+// load all locations
+export const loadLocations = cb => Location.find((err, docs) => (err) ? cb(err) : cb(null, docs));
+
 // load all users
-export const loadUsers = cb => User.find({}, (err, docs) => (err) ? cb(err) : cb(null, docs.map(d => d.user)));
+export const loadUsers = cb => User.find((err, docs) => (err) ? cb(err) : cb(null, docs.map(d => d.user)));
 
 // return a new Error object with status code
 export const newErr = (code, message) => {
