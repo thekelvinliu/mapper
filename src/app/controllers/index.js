@@ -1,10 +1,11 @@
 'use strict';
 
-// import async from 'async';
+import async from 'async';
 import express from 'express';
 // import mongoose from 'mongoose';
 // import logger from '../helpers/logger';
 import {
+  loadLocations,
   loadUsers
 } from '../helpers/functions';
 
@@ -18,12 +19,16 @@ router.use('/register', require('./register'));
 router.use('/yo', require('./yo'));
 
 // main page
-router.get('/', (req, res, next) => loadUsers((err, users) =>
-  (err) ? next(err) : res.render('index', {
+router.get('/', (req, res, next) => {
+  async.parallel([
+    loadLocations,
+    loadUsers
+  ], (err, results) => (err) ? next(err) : res.render('index', {
     title: 'mapper',
-    users
-  })
-));
+    locations: results[0],
+    users: results[1]
+  }));
+});
 // user page
 router.get('/users/:user', (req, res, next) => res.render('users', {
   title: `${req.params.user}`,
