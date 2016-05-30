@@ -11,4 +11,8 @@ block box
     input(type='submit' value='Register')
 
 block scripts
-  script(src='/js/validate.js' async defer)
+  script(src='/js/functions.js')
+  script.
+    function validate() {
+      return isValid(document.forms['register']['user'].value);
+    }
