@@ -1,31 +1,23 @@
 'use strict';
 
-import mongoose from 'mongoose';
-
-// load models
-const Location = mongoose.model('Location');
-const User = mongoose.model('User');
-
-// returns true if k is in obj
-export const contains = (obj, k) => typeof obj[k] !== 'undefined';
-
-// check if object is empty
-export const isEmpty = obj => {
+// return true if obj contains k else false
+export function contains(obj, k) {
+  return typeof obj[k] !== 'undefined';
+}
+// return true if obj is empty else false
+export function isEmpty(obj) {
   for (const k in obj)
     if (contains(obj, k))
       return false;
   return true;
-};
-
-// load all locations
-export const loadLocations = cb => Location.find((err, docs) => (err) ? cb(err) : cb(null, docs));
-
-// load all users
-export const loadUsers = cb => User.find((err, docs) => (err) ? cb(err) : cb(null, docs.map(d => d.user)));
-
+}
+// return true if s is alphanumeric else false
+export function isValid(s) {
+  return /^[A-Z0-9]+$/.test(s.toUpperCase());
+}
 // return a new Error object with status code
-export const newErr = (code, message) => {
+export function newErr(code, message) {
   const err = new Error(message);
   err.status = code;
   return err;
-};
+}

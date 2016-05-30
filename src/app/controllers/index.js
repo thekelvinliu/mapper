@@ -3,13 +3,10 @@
 import async from 'async';
 import express from 'express';
 import mongoose from 'mongoose';
-import {
-  loadLocations,
-  loadUsers
-} from '../helpers/functions';
 
 // load models
 const Location = mongoose.model('Location');
+const User = mongoose.model('User');
 
 // create router
 const router = express.Router();
@@ -20,8 +17,10 @@ router.use('/yo', require('./yo'));
 // main page
 router.get('/', (req, res, next) =>
   async.parallel([
-    loadLocations,
-    loadUsers
+    // load all locations
+    cb => Location.find((err, docs) => (err) ? cb(err) : cb(null, docs)),
+    // load all users
+    cb => User.find((err, docs) => (err) ? cb(err) : cb(null, docs.map(d => d.user)))
   ], (err, results) => (err) ? next(err) : res.render('index', {
     title: 'mapper',
     locations: results[0],
