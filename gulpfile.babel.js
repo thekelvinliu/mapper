@@ -139,7 +139,7 @@ gulp.task('styles', () =>
 
 // transpile scripts, sourcemaps, minify
 gulp.task('scripts', ['lint:scripts'], () =>
-  gulp.src(PATHS.scripts.src)
+  vfs.src(PATHS.scripts.src)
     .pipe($.changed(PATHS.scripts.dest))
     .pipe($.sourcemaps.init())
     .pipe($.babel())
