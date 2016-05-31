@@ -4,16 +4,18 @@
 export function contains(obj, k) {
   return typeof obj[k] !== 'undefined';
 }
+
+// return true if s is alphanumeric else false
+export function isalnum(s) {
+  return /^[A-Z0-9]+$/.test(s.toUpperCase());
+}
+
 // return true if obj is empty else false
 export function isEmpty(obj) {
   for (const k in obj)
     if (contains(obj, k))
       return false;
   return true;
-}
-// return true if s is alphanumeric else false
-export function isValid(s) {
-  return /^[A-Z0-9]+$/.test(s.toUpperCase());
 }
 // return a new Error object with status code
 export function newErr(code, message) {
