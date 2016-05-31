@@ -35,19 +35,15 @@ router.get('/', (req, res, next) => {
       User.findOne({
         user
       }, (err, doc) => {
-        if (err) {
-          logger.error(err);
-          return cb(newErr(400, 'invalid user'));
-        } else if (Date.now() < doc.lastUpdated.getTime() + 3*60*1000) {
-          logger.warn(`${user} already updated in the past 3 minutes`);
-          return cb(newErr(400, 'user has updated in the past 3 minutes'));
-        } else {
-          return cb(null, doc);
-        }
+        if (err) return cb(newErr(400, 'invalid user'));
+        else if (Date.now() < doc.lastUpdated.getTime() + 3*60*1000)
+          return cb(newErr(400, `${user} was already updated recently`));
+        else return cb(null, doc);
       });
     },
     // send request to geonames to get metadata on latlng coords
     (userDoc, cb) => {
+      // unpack lat lng
       const [lat, lng] = qs.location.split(';');
       if (!lat || !lng) return cb(newErr(400, 'invalid location'));
       // send request to geonames
@@ -60,22 +56,13 @@ router.get('/', (req, res, next) => {
         },
         json: true
       }, (err, response, body) => {
-        if (err) {
-          logger.warn('request to GeoNames failed');
-          return cb(err);
-        } else if (contains(body, 'geonames')) {
+        if (err) return cb(err);
+        else if (contains(body, 'geonames')) {
           const data = body.geonames[0];
-          if (!isEmpty(data)) {
-            logger.info('request to GeoNames successful');
-            return cb(null, userDoc, data);
-          } else {
-            logger.warn('request to GeoNames failed');
-            return cb(newErr(500, 'GeoNames request failed'));
-          }
-        } else {
-          logger.warn('request to GeoNames failed');
-          return cb(newErr(500, 'GeoNames request failed'));
+          if (isEmpty(data)) return cb(newErr(500, 'GeoNames request failed'));
+          else return cb(null, userDoc, data);
         }
+        else return cb(newErr(500, 'GeoNames request failed'));
       });
     },
     // update user and save location data
@@ -84,34 +71,22 @@ router.get('/', (req, res, next) => {
         // update userDoc.lastUpdated
         cb => {
           userDoc.lastUpdated = Date.now();
-          userDoc.save(err => {
-            if (err)
-              logger.warn(`failed to update ${userDoc.user}`);
-            else
-              logger.info(`successfully updated ${userDoc.user}`);
-            return cb(null, (err) ? false : true);
-          });
+          userDoc.save(err => (err) ? cb(err) : cb());
         },
         // save location data
         cb => {
           data.user = userDoc.user;
           logger.debug(`location data: ${JSON.stringify(data)}`);
           const doc = new Location(data);
-          doc.save(err => {
-            if (err)
-              logger.warn('failed to save location data');
-            else
-              logger.info('successfully saved location data');
-            return cb(null, (err) ? false : true);
-          });
+          doc.save(err => (err) ? cb(err) : cb());
         }
-      ], (err, results) => {
-        if (err) return cb(err);
-        else if (results.every(e => e)) return cb();
-        else return cb(newErr(500, 'database operation failed'));
-      });
+      ], err => (err) ? cb(err) : cb(null, userDoc.user));
     }
-  ], err => (err) ? next(err) : res.status(200));
+  ], (err, user) => {
+    if (err) logger.error(`encountered ${err.status} error: '${err.message}'`);
+    else logger.info(`'${user}' successfully uploaded loation`);
+    return (err) ? next(err) : res.status(200).end();
+  });
 });
 
 // export router
