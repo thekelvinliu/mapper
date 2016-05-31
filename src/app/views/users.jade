@@ -1,11 +1,16 @@
 extends layout/ui_main
 
 block sidebar
-  h4 Coords:
+  h4 Locations:
   ul.location-list
-    each loc in locations
-      li= ['(', loc.lat, ', ', loc.lng, ')'].join('')
+    each loc in JSON.parse(locations)
+      li
+        = loc.toponymName
+        br
+        = ['(', loc.lat, ', ', loc.lng, ')'].join('')
 
 block scripts
+  script.
+    var locations = !{locations};
   script(src='/js/map.js' defer)
   script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD_RaaepRyCefFdgq1cR8UOsipwC5ctkiA&callback=initMap' defer)

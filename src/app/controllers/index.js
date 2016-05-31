@@ -23,7 +23,7 @@ router.get('/', (req, res, next) =>
     cb => User.find((err, docs) => (err) ? cb(err) : cb(null, docs.map(d => d.user)))
   ], (err, results) => (err) ? next(err) : res.render('index', {
     title: 'mapper',
-    locations: results[0],
+    locations: JSON.stringify(results[0]),
     users: results[1]
   }))
 );
@@ -34,7 +34,7 @@ router.get('/users/:user', (req, res, next) =>
     user: req.params.user
   }).sort('-date').exec((err, docs) => res.render('users', {
     title: `${req.params.user}`,
-    locations: docs
+    locations: JSON.stringify(docs)
   }))
 );
 
