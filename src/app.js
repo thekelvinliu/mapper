@@ -6,6 +6,8 @@ import compress from 'compression';
 import express from 'express';
 import favicon from 'serve-favicon';
 import helmet from 'helmet';
+import jade from 'jade';
+import jadeBabel from 'jade-babel';
 import mongoose from 'mongoose';
 import logger from './app/helpers/logger';
 
@@ -25,6 +27,7 @@ const config = {
 // create app
 const app = express();
 // use jade and set views and static directories
+jade.filters.babel = jadeBabel();
 app.set('view engine', 'jade');
 app.set('views', path.join(config.root, 'app/views'));
 app.use(express.static(path.join(config.root, 'static')));

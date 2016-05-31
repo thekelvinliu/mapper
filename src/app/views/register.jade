@@ -5,14 +5,20 @@ block box
   p
     | To register, simply enter your Yo username in the field below.
     | Keep in mind that all Yo usernames are alphanumeric -- that means no spaces or special characters!
-  form.spacing(name='register' accept-charset='utf-8' autocomplete='off' method='post' onsubmit='return validate()')
-    input(required type='text' name='user' pattern='^[a-zA-Z0-9]+$')
-    br
-    input(type='submit' value='Register')
+  .spacing
+    form#register&attributes({
+      'name': 'register',
+      'accept-charset': 'utf-8',
+      'autocomplete': 'off',
+      'method': 'post',
+      'onsubmit': 'return validate()'
+    })
+      input(required type='text' name='user' pattern='^[a-zA-Z0-9]+$')
+      br
+      input(type='submit' value='Register')
 
 block scripts
   script(src='/js/functions.js')
-  script.
-    function validate() {
-      return isValid(document.forms['register']['user'].value);
-    }
+  script
+    :babel
+      const validate = () => isalnum(document.forms['register']['user'].value);
