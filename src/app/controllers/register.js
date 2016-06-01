@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import logger from '../helpers/logger';
 import {
   contains,
-  isValid
+  isalnum
 } from '../helpers/functions';
 
 // load models
@@ -27,7 +27,7 @@ router.post('/', (req, res, next) => {
     title: '*register*',
     user
   };
-  payload.message = (payload.success = isValid(user))
+  payload.message = (payload.success = isalnum(user))
     ? 'Now get out there, and start sending your locations to \'MAPPER\'!'
     : 'Something went wrong. Ensure that you\'re entering your Yo username correctly. Remember, it can only be alphanumeric!';
   // insert user to db
