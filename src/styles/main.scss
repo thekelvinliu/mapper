@@ -107,6 +107,7 @@ footer {
 }
 .overflow {
   overflow: scroll;
+  -ms-overflow-style: none;
 }
 .padded {
   padding: 1rem;

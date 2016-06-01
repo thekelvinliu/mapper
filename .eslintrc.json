@@ -23,8 +23,10 @@
     "semi": [2, "always"]
   },
   "globals": {
+    "getPosition": true,
     "google": true,
     "locations": true,
-    "map": true
+    "map": true,
+    "resetMap": true
   }
 }

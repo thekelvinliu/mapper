@@ -1,6 +1,6 @@
 'use strict';
 
-// GLOBAL VARIABLES
+// VARIABLES
 // the currently opened info window
 let openWindow;
 // holds all map markers
@@ -15,10 +15,7 @@ const dropAllMarkers = locArr => {
     // create marker
     const marker = new google.maps.Marker({
       title: e.user,
-      position: {
-        lat: parseFloat(e.lat),
-        lng: parseFloat(e.lng)
-      },
+      position: getPosition(e),
       map,
       icon: '/img/pin_32.png'
     });
@@ -26,15 +23,25 @@ const dropAllMarkers = locArr => {
     // create window
     const info = new google.maps.InfoWindow({
       maxWidth: 200,
-      content: JSON.stringify(e)
+      content: e.user
     });
     windows.push(info);
+    // add event listeners
+    marker.addListener('click', () => {
+      // close currently opened info window is it exists
+      if (openWindow) openWindow.close();
+      // center map on marker and zoom
+      map.setCenter(marker.getPosition());
+      if (map.zoom < 14) map.setZoom(map.zoom + 2);
+      // open window and save reference
+      info.open(map, marker);
+      openWindow = info;
+    });
+    info.addListener('closeclick', () => {
+      // close currently opened info window is it exists
+      if (openWindow) openWindow.close();
+    });
   });
-};
-
-// reset the whole map
-const resetMap = () => {
-
 };
 
 // MAIN
