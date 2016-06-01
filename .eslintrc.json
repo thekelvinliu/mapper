@@ -23,6 +23,8 @@
     "semi": [2, "always"]
   },
   "globals": {
-    "google": true
+    "google": true,
+    "locations": true,
+    "map": true
   }
 }
