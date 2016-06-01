@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(compress());
-app.use(favicon(path.join(config.root, 'static/img/favicon.png')));
+app.use(favicon(path.join(config.root, 'static/img/pin.png')));
 app.use(helmet());
 // load all models
 require(path.join(config.root, 'app/models'));
