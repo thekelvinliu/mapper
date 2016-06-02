@@ -65,22 +65,17 @@ router.get('/', (req, res, next) => {
         else return cb(newErr(500, 'GeoNames request failed'));
       });
     },
-    // update user and save location data
+    // save location data
     (userDoc, data, cb) => {
-      async.parallel([
-        // update userDoc.lastUpdated
-        cb => {
-          userDoc.lastUpdated = Date.now();
-          userDoc.save(err => (err) ? cb(err) : cb());
-        },
-        // save location data
-        cb => {
-          data.user = userDoc.user;
-          logger.debug(`location data: ${JSON.stringify(data)}`);
-          const doc = new Location(data);
-          doc.save(err => (err) ? cb(err) : cb());
-        }
-      ], err => (err) ? cb(err) : cb(null, userDoc.user));
+      data.user = userDoc.user;
+      logger.debug(`location data: ${JSON.stringify(data)}`);
+      const doc = new Location(data);
+      doc.save(err => (err) ? cb(err) : cb(null, userDoc));
+    },
+    //update user
+    (userDoc, cb) => {
+      userDoc.lastUpdated = Date.now();
+      userDoc.save(err => (err) ? cb(err) : cb(null, userDoc.user));
     }
   ], (err, user) => {
     if (err) logger.error(`encountered ${err.status} error: '${err.message}'`);
