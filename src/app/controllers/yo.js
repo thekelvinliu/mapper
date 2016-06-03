@@ -1,6 +1,7 @@
 'use strict';
 
 import async from 'async';
+import { flag } from 'country-code-emoji';
 import express from 'express';
 import mongoose from 'mongoose';
 import request from 'request';
@@ -67,7 +68,11 @@ router.get('/', (req, res, next) => {
     },
     // save location data
     (userDoc, data, cb) => {
+      // get user
       data.user = userDoc.user;
+      // get emoji flag
+      const f = flag(data.countryCode);
+      if (f) data.flag = f;
       logger.debug(`location data: ${JSON.stringify(data)}`);
       const doc = new Location(data);
       doc.save(err => (err) ? cb(err) : cb(null, userDoc));
