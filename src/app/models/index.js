@@ -1,4 +1,5 @@
 'use strict';
 
-require('./location');
-require('./user');
+import './bucket';
+import './location';
+import './user';
