@@ -17,7 +17,8 @@ html {
   font-size: 62.5%;
   color: $primary;
   background-color: $bg;
-  overflow: hidden;
+  overflow-x: hidden;
+  word-wrap: break-word;
 }
 
 body {
@@ -90,11 +91,6 @@ footer {
   height: 79vh;
 }
 // helpers
-.breakable {
-  text-overflow: visible;
-  word-wrap: break-word;
-  white-space: normal;
-}
 .first {
   margin-top: 0;
 }
@@ -125,6 +121,9 @@ footer {
 
 // large screens
 @media (min-width: 600px) {
+  html {
+    overflow-y: hidden;
+  }
   // layout
   .lcol {
     margin-right: 1rem;
