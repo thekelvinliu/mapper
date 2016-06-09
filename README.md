@@ -18,6 +18,5 @@ in fact, one of the major reasons i started working on mapper so long after i th
 the latter is a dependency of mapper, and is used when users upload their location data.
 
 ## TODO
-- display location details on sidebar for user page
 - text wrapping issues
 - rate limit registration

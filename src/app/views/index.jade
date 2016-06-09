@@ -14,11 +14,5 @@ block sidebar
 block scripts
   script.
     var locations = !{locations};
-  if users
-    script.
-      var simple = true;
-  else
-    script.
-      var simple = false;
   script(src='/js/map.js' defer)
   script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD_RaaepRyCefFdgq1cR8UOsipwC5ctkiA&callback=mapMain' defer)

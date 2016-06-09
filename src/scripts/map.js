@@ -21,8 +21,6 @@ let windows = [];
 let divs = [];
 // the currently opened info window
 let openWindow;
-// the currently selected div
-let selectedDiv;
 
 // FUNCTIONS
 // returns a new map
@@ -34,13 +32,6 @@ const getPosition = loc => ({
   lat: parseFloat(loc.lat) + randomFloat(0.0001, 0.0015),
   lng: parseFloat(loc.lng) + randomFloat(0.0001, 0.0015)
 });
-// close current window and unselect div
-const closeCurrent = () => {
-  if (openWindow) {
-    openWindow.close();
-    selectedDiv = null;
-  }
-};
 // returns given date as a formatted string 'DD Mon. YY hh:mm'
 const formatDate = d => {
   let dayOfMonth = d.getDate();
@@ -59,7 +50,8 @@ const formatDate = d => {
     'Nov.',
     'Dec.'
   ];
-  const time = [d.getHours(), d.getMinutes()].join(':');
+  // get time as a string in the form 'hh:mm'
+  const time = d.toTimeString().slice(0, 5);
   return [
     dayOfMonth,
     months[d.getMonth()],
@@ -79,12 +71,13 @@ const getToponym = loc => {
 const mapMain = () => {
   // create the map
   map = createMap();
-  // create sidebar element, map marker, info window, etc. for locations
+  // the containing div for sidebar information, null for the index page
+  const container = document.getElementById('location-list');
+  // create sidebar element, map marker, info window for locations
   locations.forEach((e, i, A) => {
-    // declare a div that is only used for user-specific view (simple is false)
+    // create div only for user-specific view (container is not null)
     let div;
-    if (!simple) {
-      // actually create div
+    if (container) {
       div = document.createElement('div');
       // give it text
       div.innerHTML = [
@@ -93,14 +86,14 @@ const mapMain = () => {
         e.flag,
         getToponym(e)
       ].join(' ');
-      // add some style
-      div.style.borderTop = "1px dashed #333";
-      // append to location list
-      document.getElementById('location-list').appendChild(div);
-      // add div
+      // add separator and div to sidebar
+      let separator = document.createElement('div');
+      separator.style.borderTop = '1px dashed #333';
+      container.appendChild(separator);
+      container.appendChild(div);
+      // put div in array
       divs.push(div);
     }
-
     // create marker
     const marker = new google.maps.Marker({
       title: e.user,
@@ -108,36 +101,40 @@ const mapMain = () => {
       map,
       icon: '/img/pin_32.png'
     });
-    // add marker
+    // save marker
     markers.push(marker);
-
     // create window
     const info = new google.maps.InfoWindow({
       maxWidth: 200,
-      content: (simple) ? e.user : div
+      content: (container) ? div.cloneNode(true) : e.user
     });
-    // add window
+    // save info window
     windows.push(info);
 
-    // add event listeners
+    // set event listeners
+    if (container) {
+      div.addEventListener('click', () => {
+        google.maps.event.trigger(marker, 'click', {});
+      });
+    }
     marker.addListener('click', () => {
-      closeCurrent();
+      if (openWindow) openWindow.close();
       // center map on marker and zoom
       map.setCenter(marker.getPosition());
-      if (map.zoom < 14) map.setZoom(map.zoom + 2);
+      if (map.zoom < 10) map.setZoom(map.zoom + 2);
       // open window and save reference
       info.open(map, marker);
       openWindow = info;
     });
     info.addListener('closeclick', () => {
-      closeCurrent();
+      if (openWindow) openWindow.close();
     });
   });
-};
-// reset the whole map
-const resetMap = () => {
-  if (map) {
-    map.setCenter(MAP_DEFAULTS.center);
-    map.setZoom(MAP_DEFAULTS.zoom);
-  } else map = createMap();
+  // display total
+  if (container) {
+    const totalDiv = document.createElement('div');
+    totalDiv.innerHTML = `Total: ${locations.length}`;
+    container.appendChild(totalDiv);
+    totalDiv.style.borderTop = '1px solid #333';
+  }
 };

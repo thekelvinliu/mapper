@@ -3,7 +3,6 @@
 import async from 'async';
 import express from 'express';
 import mongoose from 'mongoose';
-import logger from '../helpers/logger';
 
 // load models
 const Location = mongoose.model('Location');

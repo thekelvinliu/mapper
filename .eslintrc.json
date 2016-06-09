@@ -27,7 +27,6 @@
     "google": true,
     "locations": true,
     "map": true,
-    "resetMap": true,
-    "simple": true
+    "resetMap": true
   }
 }
