@@ -32,7 +32,7 @@ router.get('/', (req, res, next) =>
 router.get('/users/:user', (req, res, next) =>
   Location.find({
     user: req.params.user
-  }).sort('-date').exec((err, docs) => res.render('users', {
+  }).sort('-date').exec((err, docs) => res.render('index', {
     title: `${req.params.user}`,
     locations: JSON.stringify(docs)
   }))

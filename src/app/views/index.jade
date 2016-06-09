@@ -1,12 +1,21 @@
 extends layout/ui_main
 
 block sidebar
-  h4 Users:
-  ul.user-list
-    each user in users
-      li
-        a(href='/users/#{user}')= user
+  if users
+    h4 Users:
+    ul.user-list
+      each user in users
+        li
+          a(href=`/users/${user}`)= user
+  else
+    h4 Locations:
+    ul.location-list
 
 block scripts
-  include components/map_scripts
-  script(src='/js/index.js' defer)
+  script.
+    var locations = !{locations};
+  if users
+    script.
+      var simple = true;
+  script(src='/js/map.js' defer)
+  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD_RaaepRyCefFdgq1cR8UOsipwC5ctkiA&callback=mapMain' defer)
