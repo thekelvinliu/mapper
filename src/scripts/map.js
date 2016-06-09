@@ -17,6 +17,8 @@ const MAP_DEFAULTS = {
 let markers = [];
 // holds all info windows
 let windows = [];
+// holds all divs
+let divs = [];
 // the currently opened info window
 let openWindow;
 // the currently selected div
@@ -39,9 +41,66 @@ const closeCurrent = () => {
     selectedDiv = null;
   }
 };
-// create a map marker for each location in locArray
-const dropAllMarkers = locArr => {
-  locArr.forEach((e, i, A) => {
+// returns given date as a formatted string 'DD Mon. YY hh:mm'
+const formatDate = d => {
+  let dayOfMonth = d.getDate();
+  if (dayOfMonth < 10) dayOfMonth = `0${dayOfMonth}`;
+  const months = [
+    'Jan.',
+    'Feb.',
+    'Mar.',
+    'Apr.',
+    'May',
+    'Jun.',
+    'Jul.',
+    'Aug.',
+    'Sept.',
+    'Oct.',
+    'Nov.',
+    'Dec.'
+  ];
+  const time = [d.getHours(), d.getMinutes()].join(':');
+  return [
+    dayOfMonth,
+    months[d.getMonth()],
+    d.getYear() % 100,
+    time
+  ].join(' ');
+};
+// returns a usable toponym from loc
+const getToponym = loc => {
+  switch (loc.countryCode) {
+    case 'US': return `${loc.toponymName}, ${loc.adminCode1}`;
+    case 'GB': return `${loc.toponymName}, ${loc.adminName1}`;
+    default: return `${loc.adminName1}, ${loc.countryName}`;
+  }
+};
+// callback function for when google maps api script is done
+const mapMain = () => {
+  // create the map
+  map = createMap();
+  // create sidebar element, map marker, info window, etc. for locations
+  locations.forEach((e, i, A) => {
+    // declare a div that is only used for user-specific view (simple is false)
+    let div;
+    if (!simple) {
+      // actually create div
+      div = document.createElement('div');
+      // give it text
+      div.innerHTML = [
+        formatDate(new Date(e.date)),
+        '<br>',
+        e.flag,
+        getToponym(e)
+      ].join(' ');
+      // add some style
+      div.style.borderTop = "1px dashed #333";
+      // append to location list
+      document.getElementById('location-list').appendChild(div);
+      // add div
+      divs.push(div);
+    }
+
     // create marker
     const marker = new google.maps.Marker({
       title: e.user,
@@ -49,17 +108,20 @@ const dropAllMarkers = locArr => {
       map,
       icon: '/img/pin_32.png'
     });
+    // add marker
     markers.push(marker);
+
     // create window
     const info = new google.maps.InfoWindow({
       maxWidth: 200,
-      content: e.user
+      content: (simple) ? e.user : div
     });
+    // add window
     windows.push(info);
+
     // add event listeners
     marker.addListener('click', () => {
-      // close currently opened info window is it exists
-      if (openWindow) openWindow.close();
+      closeCurrent();
       // center map on marker and zoom
       map.setCenter(marker.getPosition());
       if (map.zoom < 14) map.setZoom(map.zoom + 2);
@@ -68,15 +130,9 @@ const dropAllMarkers = locArr => {
       openWindow = info;
     });
     info.addListener('closeclick', () => {
-      // close currently opened info window is it exists
-      if (openWindow) openWindow.close();
+      closeCurrent();
     });
   });
-};
-// callback function for when google maps api script is done
-const mapMain = () => {
-  map = createMap();
-  dropAllMarkers(locations);
 };
 // reset the whole map
 const resetMap = () => {

@@ -18,6 +18,13 @@ const schema = new mongoose.Schema({
   population: Number,
   toponymName: String,
   user: String
+}, {
+  toObject: {
+    virtuals: true
+  },
+  toJSON: {
+    virtuals: true
+  }
 });
 // virtual date attribute
 schema.virtual('date').get(function() {

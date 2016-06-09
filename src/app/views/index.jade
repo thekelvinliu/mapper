@@ -3,13 +3,13 @@ extends layout/ui_main
 block sidebar
   if users
     h4 Users:
-    ul.user-list
+    ul#user-list
       each user in users
         li
           a(href=`/users/${user}`)= user
   else
     h4 Locations:
-    ul.location-list
+    #location-list
 
 block scripts
   script.
@@ -17,5 +17,8 @@ block scripts
   if users
     script.
       var simple = true;
+  else
+    script.
+      var simple = false;
   script(src='/js/map.js' defer)
   script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD_RaaepRyCefFdgq1cR8UOsipwC5ctkiA&callback=mapMain' defer)
