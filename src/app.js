@@ -14,11 +14,13 @@ import logger from './app/helpers/logger';
 // BASIC CONFIG
 const config = {
   // address of mongodb
-  db: process.env.MONGOURI || 'mongodb://localhost:27017/mapper',
+  db: process.env.MAPPER_MONGOURI || 'mongodb://localhost:27017/mapper',
+  user: process.env.DB_USER,
+  pass: process.env.DB_PASS,
   // environment
   env: process.env.NODE_ENV || 'development',
   // port on which to listen
-  port: 5000,
+  port: 5001,
   // path to root directory of this app
   root: path.normalize(__dirname)
 };
@@ -61,7 +63,13 @@ app.use((err, req, res, next) => {
 });
 
 // MONGOOSE SET-UP
-mongoose.connect(config.db);
+// warn if MONGOURI is being used and pass is undefined
+if (config.db === process.env.MONGOURI && !config.pass)
+  logger.warn(`bad credientials for ${config.db} -- check env.`);
+mongoose.connect(config.db, {
+  user: config.user,
+  pass: config.pass
+});
 const db = mongoose.connection;
 db.on('error', () => {
   throw new Error(`unable to connect to database at ${config.db}`);
