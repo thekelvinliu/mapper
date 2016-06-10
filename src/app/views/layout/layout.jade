@@ -10,22 +10,21 @@ html(lang='en')
         = title
     meta(name='description' content='a visualization of all the places you\'ve gone')
     meta(name='viewport' content='width=device-width, initial-scale=1')
-    link(rel='stylesheet' href='/css/main.css')
+    link(rel='stylesheet' href='css/main.css')
     block head
   body
     #header.first.row
       .lcol
         h1.name
-          a(href='/') MAPPER
-          if (title != 'mapper')
-            span.details
-            | //
-            = title
+          if (title === 'mapper')
+            a(href='') MAPPER
+          else
+            | #[a(href='/') MAPPER]//#{title}
       .rcol
         h6
-          a(href='/about') about
+          a(href='about') about
           | |
-          a(href='/register') register
+          a(href='register') register
     .row
       block body
   block scripts

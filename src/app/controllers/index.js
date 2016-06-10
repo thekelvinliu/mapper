@@ -29,8 +29,12 @@ router.get('/', (req, res, next) =>
     users: results[1]
   }))
 );
+// about page
+router.get('/about', (req, res, next) => res.render('about', {
+  title: '*about*'
+}));
 // user page
-router.get('/users/:user', (req, res, next) =>
+router.get('/:user', (req, res, next) =>
   Location
     .find({
       user: req.params.user.toUpperCase()
@@ -41,10 +45,6 @@ router.get('/users/:user', (req, res, next) =>
       locations: JSON.stringify(docs.map(e => e.toJSON()))
     }))
 );
-// about page
-router.get('/about', (req, res, next) => res.render('about', {
-  title: '*about*'
-}));
 
 // export router
 export default router;

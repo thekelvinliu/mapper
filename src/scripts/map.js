@@ -99,7 +99,7 @@ const mapMain = () => {
       title: e.user,
       position: getPosition(e),
       map,
-      icon: '/img/pin_32.png'
+      icon: 'img/pin_32.png'
     });
     // save marker
     markers.push(marker);

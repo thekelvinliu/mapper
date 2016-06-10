@@ -6,7 +6,7 @@ block sidebar
     ul#user-list
       each user in users
         li
-          a(href=`/users/${user}`)= user
+          a(href=`${user}`)= user
   else
     h4 Locations:
     #location-list
@@ -14,5 +14,5 @@ block sidebar
 block scripts
   script.
     var locations = !{locations};
-  script(src='/js/map.js' defer)
-  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD_RaaepRyCefFdgq1cR8UOsipwC5ctkiA&callback=mapMain' defer)
+  script(src='js/map.js' defer)
+  script(src='//maps.googleapis.com/maps/api/js?key=AIzaSyD_RaaepRyCefFdgq1cR8UOsipwC5ctkiA&callback=mapMain' defer)
