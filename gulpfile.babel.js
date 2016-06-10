@@ -98,11 +98,6 @@ gulp.task('build:server', ['transpile', 'views', 'ln']);
 gulp.task('images', () =>
   gulp.src(PATHS.images.src)
     .pipe($.changed(PATHS.images.dest))
-    .pipe($.imagemin({
-      optimizationLevel: 5,
-      progressive: true,
-      interlaced: true
-    }))
     .pipe(gulp.dest(PATHS.images.dest))
     .pipe($.print(fp => `image: ${fp}`))
 );
