@@ -7,6 +7,7 @@ import {
   contains,
   isalnum
 } from '../helpers/functions';
+import rateLimiter from '../helpers/rate-limiter';
 
 // load models
 const User = mongoose.model('User');
@@ -17,7 +18,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => res.render('register', {
   title: '*register*'
 }));
-router.post('/', (req, res, next) => {
+router.post('/', rateLimiter, (req, res, next) => {
   // check if req.body.user exists
   if (!contains(req.body, 'user')) return next(new Error('No data'));
   // make user upper case

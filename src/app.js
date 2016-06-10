@@ -9,7 +9,7 @@ import helmet from 'helmet';
 import jade from 'jade';
 import jadeBabel from 'jade-babel';
 import mongoose from 'mongoose';
-import models from './app/models';
+import './app/models';
 import controllers from './app/controllers';
 import logger from './app/helpers/logger';
 

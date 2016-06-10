@@ -2,10 +2,12 @@
 
 import mongoose from 'mongoose';
 
-// single minute in ms
-const MINUTE = 60*1000;
+// single minute in seconds
+const MINUTE = 60;
+// each bucket has a 10 minute time to live
+export const TTL = 10*MINUTE;
 // allow up to 10 hits per ttl
-const MAX_HITS = 10;
+export const MAX_HITS = 10;
 
 // create new schema
 const schema = new mongoose.Schema({
@@ -13,8 +15,7 @@ const schema = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
-    // set ttl as 10 minutes
-    expires: 10*MINUTE
+    expires: TTL
   },
   ip: {
     type: String,
@@ -32,3 +33,5 @@ const schema = new mongoose.Schema({
 });
 // assign schema to 'Bucket'
 mongoose.model('Bucket', schema);
+
+export default schema;
