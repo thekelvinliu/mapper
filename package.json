@@ -1,6 +1,6 @@
 {
   "name": "mapper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a visualization of all the places you've gone",
   "main": "app.js",
   "scripts": {
