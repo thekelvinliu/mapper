@@ -16,6 +16,3 @@ as always, feel free to check them out and give feedback :)
 the former was used to scaffold mapper.
 in fact, one of the major reasons i started working on mapper so long after i thought of it was to work on generator-espress.
 the latter is a dependency of mapper, and is used when users upload their location data.
-
-## TODO
-- rate limit registration
