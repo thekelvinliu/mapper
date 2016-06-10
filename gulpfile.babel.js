@@ -3,7 +3,6 @@
 import fs from 'fs';
 import path from 'path';
 import del from 'del';
-import mkdirp from 'mkdirp';
 import vfs from 'vinyl-fs';
 import gulp from 'gulp';
 import plugins from 'gulp-load-plugins';
@@ -25,14 +24,6 @@ const PATHS = {
   scripts: {
     src: path.join(SRC, 'scripts/**/*.js'),
     dest: path.join(DEST, 'static/js')
-  },
-  files: {
-    src: path.join(SRC, 'files/**/*'),
-    dest: path.join(DEST, 'static/files')
-  },
-  fonts: {
-    src: path.join(SRC, 'fonts/**/*.{otf,ttf}'),
-    dest: path.join(DEST, 'static/fonts')
   },
   // server
   app: {
@@ -61,7 +52,7 @@ const PATHS = {
 // set of all keys of PATHS
 const ALL = new Set(Object.keys(PATHS));
 // client-related set
-const CLIENT = new Set(['styles', 'images', 'scripts', 'files', 'fonts']);
+const CLIENT = new Set(['styles', 'images', 'scripts']);
 // server-related set, i.e. ALL - CLIENT
 const SERVER = new Set([...ALL].filter(el => !CLIENT.has(el)));
 // set of things that need to be transpiled, i.e. SERVER - {'views'}
@@ -149,60 +140,6 @@ gulp.task('scripts', ['lint:scripts'], () =>
     .pipe($.print(fp => `script: ${fp}`))
 );
 
-// copy files over to destination
-gulp.task('files', () =>
-  gulp.src(PATHS.files.src)
-    .pipe($.changed(PATHS.files.dest))
-    .pipe(gulp.dest(PATHS.files.dest))
-    .pipe($.print(fp => `file: ${fp}`))
-);
-
-// generate webfonts and css from ttf or otf fonts
-gulp.task('fonts', done => {
-  // eot
-  gulp.src(PATHS.fonts.src)
-    .pipe($.changed(PATHS.fonts.dest))
-    .pipe($.ttf2eot())
-    .pipe(gulp.dest(PATHS.fonts.dest))
-    .pipe($.print(fp => `font: ${fp}`));
-  // woff
-  gulp.src(PATHS.fonts.src)
-    .pipe($.changed(PATHS.fonts.dest))
-    .pipe($.ttf2woff())
-    .pipe(gulp.dest(PATHS.fonts.dest))
-    .pipe($.print(fp => `font: ${fp}`));
-  // woff2
-  gulp.src(PATHS.fonts.src)
-    .pipe($.changed(PATHS.fonts.dest))
-    .pipe($.ttf2woff2())
-    .pipe(gulp.dest(PATHS.fonts.dest))
-    .pipe($.print(fp => `font: ${fp}`));
-  // css
-  gulp.src(PATHS.fonts.src)
-    .pipe($.changed(PATHS.fonts.dest))
-    .pipe($.tap(file => {
-      mkdirp(PATHS.fonts.dest, err => {
-        if (err) $.util.log(err);
-        const fname = path.basename(file.path, '.ttf');
-        const fp = path.join(PATHS.fonts.dest, `${fname}.css`);
-        const css = `@font-face {
-    font-family: "${fname}";
-    src: url("${fname}.eot");
-    src: url("${fname}.eot?#iefix") format("embedded-opentype"),
-         url("${fname}.woff2") format("woff2"),
-         url("${fname}.woff") format("woff"),
-         url("${fname}.ttf") format("truetype");
-    font-weight: 300;
-    font-style: normal;
-}`;
-        fs.writeFileSync(fp, css);
-      });
-    }))
-    .pipe(gulp.dest(PATHS.fonts.dest))
-    .pipe($.print(fp => `font: ${fp}`));
-    done();
-});
-
 // returns a function that lints the files in src
 const lintTask = src =>
   () =>
@@ -253,9 +190,6 @@ for (const task of ALL) {
 }
 // clean everything!
 gulp.task('clean', () => del([DEST]));
-
-// clear cache
-gulp.task('clear', done => $.cache.clearAll(done));
 
 // show all tasks
 gulp.task('tasks', $.taskListing);
