@@ -9,6 +9,8 @@ import helmet from 'helmet';
 import jade from 'jade';
 import jadeBabel from 'jade-babel';
 import mongoose from 'mongoose';
+import models from './app/models';
+import controllers from './app/controllers';
 import logger from './app/helpers/logger';
 
 // BASIC CONFIG
@@ -28,6 +30,8 @@ const config = {
 // EXPRESS SET-UP
 // create app
 const app = express();
+// behind a proxy
+app.enable('trust proxy');
 // use jade and set views and static directories
 jade.filters.babel = jadeBabel();
 app.set('view engine', 'jade');
@@ -40,10 +44,8 @@ app.use(bodyParser.urlencoded({
 app.use(compress());
 app.use(favicon(path.join(config.root, 'static/img/pin.png')));
 app.use(helmet());
-// load all models
-require(path.join(config.root, 'app/models'));
-// load all controllers
-app.use('/', require(path.join(config.root, 'app/controllers')));
+// set all controllers
+app.use('/', controllers);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');

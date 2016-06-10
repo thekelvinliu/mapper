@@ -47,5 +47,4 @@ router.post('/', (req, res, next) => {
 });
 
 // export router
-module.exports = router;
-
+export default router;
