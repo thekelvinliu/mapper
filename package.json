@@ -2,8 +2,11 @@
   "name": "mapper",
   "version": "0.0.2",
   "description": "a visualization of all the places you've gone",
-  "main": "app.js",
+  "main": "build/app.js",
   "scripts": {
+    "build": "gulp clean && gulp build",
+    "deploy": "DEPLOY=true npm run build && (cd build && git init && git add . && git commit -m \"deploy\" && git push git@heroku.com:mapper-open.git -f && rm -rf .git)",
+    "heroku-postbuild": "echo \"running npm install again\" && npm i --production",
     "start": "node app.js",
     "test": "gulp test"
   },
@@ -47,5 +50,9 @@
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
     "vinyl-fs": "^2.4.3"
+  },
+  "engines": {
+    "node": "^6.2.1",
+    "npm": "^3.9.3"
   }
 }

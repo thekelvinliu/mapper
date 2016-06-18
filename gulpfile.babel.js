@@ -92,7 +92,7 @@ gulp.task('build', ['build:client', 'build:server']);
 // build client-side files
 gulp.task('build:client', [...CLIENT]);
 // build server-side files
-gulp.task('build:server', ['transpile', 'views', 'ln']);
+gulp.task('build:server', ['transpile', 'views', 'copy', 'ln']);
 
 // optimize images
 gulp.task('images', () =>
@@ -170,13 +170,23 @@ gulp.task('views', () =>
     .pipe($.print(fp => `view: ${fp}`))
 );
 
-// symlink package.json and node_modules to destination
+// copy package.json and Procfile to dest
+gulp.task('copy', () =>
+  gulp.src(['package.json', 'Procfile'])
+    .pipe($.changed(DEST))
+    .pipe(gulp.dest(DEST))
+    .pipe($.print(fp => `copy: ${fp}`))
+);
+
+// symlink node_modules to dest if not deploying
 gulp.task('ln', () =>
-  vfs.src(['package.json', 'node_modules'], {
-    followSymlinks: false
-  })
-    .pipe(vfs.symlink(DEST))
-    .pipe($.print(fp => `symlink: ${fp}`))
+  (typeof process.env.DEPLOY !== 'undefined')
+    ? null
+    : vfs.src('node_modules', {
+      followSymlinks: false
+    })
+      .pipe(vfs.symlink(DEST))
+      .pipe($.print(fp => `symlink: ${fp}`))
 );
 
 // create clean tasks
