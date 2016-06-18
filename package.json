@@ -5,7 +5,7 @@
   "main": "build/app.js",
   "scripts": {
     "build": "gulp clean && gulp build",
-    "deploy": "DEPLOY=true npm run build && git subtree push --prefix build heroku hdeploy",
+    "deploy": "DEPLOY=true npm run build",
     "heroku-postbuild": "echo \"running npm install again\" && npm i --production",
     "start": "node app.js",
     "test": "gulp test"
