@@ -5,7 +5,7 @@
   "main": "build/app.js",
   "scripts": {
     "build": "gulp clean && gulp build",
-    "deploy": "DEPLOY=true npm run build",
+    "deploy": "DEPLOY=true npm run build && (cd build && git init && git add . && git commit -m \"deploy\" && git push git@heroku.com:mapper-open.git -f && rm -rf .git)",
     "heroku-postbuild": "echo \"running npm install again\" && npm i --production",
     "start": "node app.js",
     "test": "gulp test"
