@@ -6,7 +6,7 @@
   "scripts": {
     "build": "gulp clean && gulp build",
     "deploy": "npm run build && git subtree push --prefix build heroku hdeploy",
-    "postinstall": "npm i --production && npm i --production",
+    "postinstall": "npm i --production",
     "start": "node app.js",
     "test": "gulp test"
   },
